@@ -80,8 +80,8 @@ export default function Navbar() {
                                 // onClose={handleClose}
                             >
                                 <MenuItem onClick={() => dispatch(logout()) }>Logout</MenuItem>
-                                {isAuth.isAuthorized && <><MenuItem ><CustomLink to="/account">Your Account</CustomLink></MenuItem>
-                                    <MenuItem ><CustomLink to="/text/account">Menage Text</CustomLink></MenuItem> </>}
+                                {isAuth.isAuthorized && <><MenuItem ><CustomLink to="/v1/profile">Your Account</CustomLink></MenuItem>
+                                    <MenuItem ><CustomLink to="/v1/post">Menage Text</CustomLink></MenuItem> </>}
                             </Menu>
                         </div>
                     )}

@@ -2,12 +2,9 @@ import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import {AuthContext} from "../hooks/authHook";
-import {useHistory, withRouter} from "react-router-dom";
 import {endpoints} from "../../types/endpoints";
 import styled from "styled-components";
 import {useTypedSelector} from "../../domain/store";
-import {IUser} from "../../types/user";
-import {setUser} from "../../domain/store/models/user";
 import {useDispatch} from "react-redux";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {IText} from "../../types/text";
@@ -24,12 +21,11 @@ interface IProps {
 
 const Element = ({className}: IProps) => {
     const classes = useStyles();
-    const history = useHistory();
     const {isAuthorized} = useContext(AuthContext)
     let texts = useTypedSelector(state => state.texts);
     const dispatch = useDispatch()
-    const handleClick = async (text:IText) => {
-        await history.push(endpoints.text + text.id)
+    const handleClick = (text:IText) => {
+        window.location.href = "post?id=" + text.id
     }
 
     return (

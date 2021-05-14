@@ -11,7 +11,6 @@ import {Button, ButtonGroup} from '@material-ui/core';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from '@material-ui/icons/Edit';
 import {AuthContext} from "../hooks/authHook";
-import { useHistory } from "react-router-dom";
 import {endpoints} from "../../types/endpoints";
 import styled from "styled-components";
 
@@ -37,7 +36,6 @@ interface IProps {
 
 const Element = ({className}: IProps) => {
     const classes = useStyles();
-    const history = useHistory();
     const {isAuthorized} = useContext(AuthContext)
 
     return (
@@ -52,7 +50,7 @@ const Element = ({className}: IProps) => {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow key={row.id} onClick={() => history.push(`${endpoints.text + row.id}`)} className={"tab-row-mat"}>
+                        <TableRow key={row.id} className={"tab-row-mat"}>
                             <TableCell component="th" scope="row">
                                 {row.title}
                             </TableCell>

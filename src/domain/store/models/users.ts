@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IUser} from "../../../types/user";
+import {HYDRATE} from "next-redux-wrapper";
 
 const initUser: IUser[] = [{
     id: "1",
@@ -29,6 +30,9 @@ const users = createSlice({
         ) => {
             state = action.payload
         }
+    },
+    extraReducers: {
+        [HYDRATE]: (_state, action) => action.payload.users
     }
 })
 

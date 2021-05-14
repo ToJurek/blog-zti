@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IComment} from "../../../types/comment";
 import {IUser} from "../../../types/user";
+import {HYDRATE} from "next-redux-wrapper";
 
 export const initialState: IComment[] = [
     {
@@ -51,6 +52,9 @@ const comments = createSlice({
         ) => {
             state = action.payload
         }
+    },
+    extraReducers: {
+        [HYDRATE]: (_state, action) => action.payload.comments
     }
 })
 

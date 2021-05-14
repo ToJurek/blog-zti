@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IAuthorization} from "../../../types/authorization";
 import {endpoints} from "../../../types/endpoints";
+import {HYDRATE} from "next-redux-wrapper";
 
 const user: IAuthorization = {
     id: "",
@@ -22,7 +23,10 @@ const authorization = createSlice({
             action: PayloadAction<IAuthorization>
         ) => {
             state = action.payload
-        }
+        },
+    },
+    extraReducers: {
+        [HYDRATE]: (_state, action) => action.payload.authorization
     }
 })
 

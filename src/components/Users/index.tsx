@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import {AuthContext} from "../hooks/authHook";
-import {useHistory, withRouter} from "react-router-dom";
 import {endpoints} from "../../types/endpoints";
 import styled from "styled-components";
 import {useTypedSelector} from "../../domain/store";
@@ -23,15 +22,13 @@ interface IProps {
 
 const Element = ({className}: IProps) => {
     const classes = useStyles();
-    const history = useHistory();
     const {isAuthorized} = useContext(AuthContext)
     let users = useTypedSelector(state => state.users);
     const dispatch = useDispatch()
     let user = useTypedSelector(state => state.user)
     const handleClick = async (user:IUser) => {
         await dispatch(setUser(user))
-        console.log(user)
-        await history.replace(endpoints.userProfile + user.id)
+        window.location.href = "/v1/user"
 
     }
 
@@ -71,4 +68,4 @@ const Users = styled(Element)`
 `
 
 // @ts-ignore
-export default withRouter(Users);
+export default Users;

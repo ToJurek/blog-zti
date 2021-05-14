@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {HYDRATE} from "next-redux-wrapper";
 
 export const initialState = {
     blogName: "Blog"
@@ -18,6 +19,9 @@ const blog = createSlice({
         ) => {
             state.blogName = action.payload
         }
+    },
+    extraReducers: {
+        [HYDRATE]: (_state, action) => action.payload.blog
     }
 })
 

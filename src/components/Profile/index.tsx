@@ -6,7 +6,6 @@ import {AuthContext} from "../hooks/authHook";
 import {useTypedSelector} from "../../domain/store";
 import UserCart from "./UserCart";
 import ProfileModal from "./ProfileModal";
-import {withRouter} from "react-router-dom";
 
 
 interface IProps {
@@ -44,4 +43,4 @@ const Profile = styled(Element)`
 `
 
 // @ts-ignore
-export default withRouter(Profile)
+export default Profile

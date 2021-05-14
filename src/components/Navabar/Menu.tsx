@@ -35,9 +35,9 @@ const CustomMenu = ({className}: IProps) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem><CustomLink to="/authors">Authors</CustomLink></MenuItem>
-                <MenuItem><CustomLink to="/add">New Text</CustomLink></MenuItem>
-                <MenuItem><CustomLink to="/texts">Texts</CustomLink></MenuItem>
+                <MenuItem><CustomLink to="/v1/users">Authors</CustomLink></MenuItem>
+                <MenuItem><CustomLink to="/v1/add">New Text</CustomLink></MenuItem>
+                <MenuItem><CustomLink to="/v1/articles">Texts</CustomLink></MenuItem>
             </Menu>
         </div>
     );
