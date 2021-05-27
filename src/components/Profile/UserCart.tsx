@@ -6,17 +6,16 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import React from "react";
-import {useTypedSelector} from "../../domain/store";
 import styled from "styled-components";
 
 
 interface IProps {
-    className?: string
+    className?: string,
+    username?: string,
+    email?: string
 }
 
-const Element = ({className}: IProps) => {
-    const {email, surname, name} = useTypedSelector(state => state.user)
-    console.log(useTypedSelector(state => state.user))
+const Element = ({className, email, username}: IProps) => {
     return (
         <TableContainer component={Paper} className={className}>
             <Table aria-label="caption table">
@@ -29,16 +28,8 @@ const Element = ({className}: IProps) => {
                         <TableCell component="th" scope="row">
                             Name:
                         </TableCell>
-                        <TableCell align="right">{name}</TableCell>
+                        <TableCell align="right">{username}</TableCell>
                     </TableRow>
-
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            Surname:
-                        </TableCell>
-                        <TableCell align="right">{surname}</TableCell>
-                    </TableRow>
-
                     <TableRow>
                         <TableCell component="th" scope="row">
                             Email:

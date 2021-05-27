@@ -11,9 +11,10 @@ import {Button, ButtonGroup} from '@material-ui/core';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from '@material-ui/icons/Edit';
 import {AuthContext} from "../hooks/authHook";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {endpoints} from "../../types/endpoints";
 import styled from "styled-components";
+import {useTypedSelector} from '../../domain/store';
 
 const useStyles = makeStyles({
     table: {
@@ -39,6 +40,9 @@ const Element = ({className}: IProps) => {
     const classes = useStyles();
     const history = useHistory();
     const {isAuthorized} = useContext(AuthContext)
+    const {articles} = useTypedSelector(state => state.articles)
+    const {username} = useTypedSelector(state => state.authorization)
+    const usersArticles = articles.filter(article => article.author === username)
 
     return (
         <TableContainer component={Paper} className={className}>
@@ -47,18 +51,19 @@ const Element = ({className}: IProps) => {
                     <TableRow>
                         <TableCell>Title</TableCell>
                         <TableCell align="right">Create Date</TableCell>
-                        {isAuthorized &&<TableCell align="right">Actions</TableCell>}
+                        {isAuthorized && <TableCell align="right">Actions</TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.id} onClick={() => history.push(`${endpoints.text + row.id}`)} className={"tab-row-mat"}>
+                    {usersArticles.map((row) => (
+                        <TableRow key={row.id} onClick={() => history.push(`${endpoints.text + row.id}`)}
+                                  className={"tab-row-mat"}>
                             <TableCell component="th" scope="row">
                                 {row.title}
                             </TableCell>
                             <TableCell align="right">{row.createdAt}</TableCell>
                             {isAuthorized && <TableCell align="right"><ButtonGroup disableElevation variant="contained"
-                                                                   aria-label="outlined primary button group">
+                                                                                   aria-label="outlined primary button group">
                                 <Button onClick={() => console.log("edit: " + row.id)} color="primary"
                                         startIcon={<EditIcon/>}/>
                                 <Button onClick={() => console.log("delete: " + row.id)} color="secondary"
@@ -67,7 +72,7 @@ const Element = ({className}: IProps) => {
                         </TableRow>
                     ))}
                     {[...Array(15 - rows.length)].map((_, i) =>
-                        <TableRow key={`empty-${i}`}><TableCell/><TableCell/>{isAuthorized &&<TableCell/>}</TableRow>
+                        <TableRow key={`empty-${i}`}><TableCell/><TableCell/>{isAuthorized && <TableCell/>}</TableRow>
                     )}
                 </TableBody>
             </Table>

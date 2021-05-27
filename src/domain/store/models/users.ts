@@ -1,34 +1,28 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IUser} from "../../../types/user";
+import {REHYDRATE} from "redux-persist";
 
-const initUser: IUser[] = [{
-    id: "1",
-    name: "Author 1",
-    surname: "Author 1",
-    email: "author@email.com",
-    lastActivity: new Date().toDateString(),
-    articles: "1"
-}, {
-    id: "2",
-    name: "Author 2",
-    surname: "Author 2",
-    email: "author2@email.com",
-    lastActivity: new Date().toDateString(),
-    articles: "1"
-}]
+interface IUserState {
+    users: IUser[]
+}
 
-export const initialState: IUser[] = initUser
+export const initialState = {
+    users: [{username: "test", email: "email", articles: ""}]
+}
 
 const users = createSlice({
     name: "users",
     initialState,
     reducers: {
         handleUsers: (
-            state: IUser[],
+            state: IUserState,
             action: PayloadAction<IUser[]>
         ) => {
-            state = action.payload
+            state.users = action.payload
         }
+    },
+    extraReducers: {
+        [REHYDRATE]: state => state
     }
 })
 

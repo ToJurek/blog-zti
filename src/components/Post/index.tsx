@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Hidden from '@material-ui/core/Hidden';
 import {Paper} from "@material-ui/core";
+import {useDispatch} from "react-redux";
+import {useParams} from "react-router-dom";
+import {getText} from "../../api/text/text";
+import {useTypedSelector} from '../../domain/store';
+import Comments from "../CommentsSection/index";
+import {getComments} from "../../api/comments";
 
 const useStyles = makeStyles((theme) => ({
     post: {
-      backgroundColor: "#E8E8E8",
+        backgroundColor: "#E8E8E8",
         minHeight: "85vh",
     },
     mainFeaturedPost: {
@@ -45,33 +45,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FeaturedPost() {
     const classes = useStyles();
-    const  post = {
-        title: "Title",
-        date: new Date().toISOString(),
-        description: "Description",
-
-    };
+    const dispatch = useDispatch()
+    const {token} = useTypedSelector(state => state.authorization)
+    const post = useTypedSelector(state => state.text)
+    // @ts-ignore
+    const {id} = useParams()
+    useEffect(() => {
+        token && dispatch(getText(id, token))
+        token && dispatch(getComments(id, token))
+    }, [])
 
     return (
-        <div className={classes.post}>
-        <Paper className={classes.mainFeaturedPost} >
-            {/* Increase the priority of the hero background image */}
-            {/*{<img style={{ display: 'none' }} src={post.image} alt={post.imageText} />}*/}
-            <div className={classes.overlay} />
-            <Grid container>
-                <Grid item md={6}>
-                    <div className={classes.mainFeaturedPostContent}>
-                        <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                            {post.title}
-                        </Typography>
-                        <Typography variant="h5" color="inherit" paragraph>
-                            {post.description}
-                        </Typography>
-                    </div>
-                </Grid>
-            </Grid>
-        </Paper>
-            <p> h1 - Heading Variant </p>
-    </div>
-);
+        <>
+            <div className={classes.post}>
+                <Paper className={classes.mainFeaturedPost}>
+                    <div className={classes.overlay}/>
+                    <Grid container>
+                        <Grid item md={6}>
+                            <div className={classes.mainFeaturedPostContent}>
+                                <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+                                    {post.title}
+                                </Typography>
+                                <Typography variant="h5" color="inherit" paragraph>
+                                    {post.author} at {post.createdAt}
+                                </Typography>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </Paper>
+                <p>{post.content}</p>
+
+
+            </div>
+            <Comments/>
+        </>
+    );
 }

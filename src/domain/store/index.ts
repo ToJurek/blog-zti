@@ -1,12 +1,20 @@
-import {useSelector, TypedUseSelectorHook} from "react-redux";
+import {TypedUseSelectorHook, useSelector} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
-import rootReducer, {RootState} from "./rootReducer";
+import persistedReducer, {RootState} from "./rootReducer";
+import {persistStore} from "redux-persist";
+
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 
 
-const store = () => configureStore({
-    reducer: rootReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck:false})
+const makeStore = () => configureStore({
+    reducer: persistedReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false})
 })
 
-export default store
+export default () => {
+    let store = makeStore()
+    let persistor = persistStore(store)
+    return {
+        store, persistor
+    }
+}

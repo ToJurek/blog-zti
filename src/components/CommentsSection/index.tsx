@@ -1,7 +1,6 @@
 import Comments from "./Comments";
 import styled from "styled-components";
 import React from "react";
-import {TextField} from "@material-ui/core";
 import InputComment from "./InputComments";
 
 interface IProps {
@@ -10,10 +9,10 @@ interface IProps {
 
 const Element = ({className}: IProps) => {
     return (
-        <div style={{ padding: 14 }} className={className}>
+        <div style={{padding: 14}} className={className}>
             <h1>Comments</h1>
-            <InputComment />
-            <Comments />
+            <InputComment/>
+            <Comments/>
         </div>
     )
 }

@@ -1,15 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import {AuthContext} from "../hooks/authHook";
-import {useHistory, withRouter} from "react-router-dom";
-import {endpoints} from "../../types/endpoints";
+import { withRouter} from "react-router-dom";
 import styled from "styled-components";
 import {useTypedSelector} from "../../domain/store";
-import {IUser} from "../../types/user";
-import {setUser} from "../../domain/store/models/user";
 import {useDispatch} from "react-redux";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
+import {getUsers} from "../../api/user";
 
 const useStyles = makeStyles({
     table: {
@@ -23,39 +20,33 @@ interface IProps {
 
 const Element = ({className}: IProps) => {
     const classes = useStyles();
-    const history = useHistory();
-    const {isAuthorized} = useContext(AuthContext)
-    let users = useTypedSelector(state => state.users);
-    const dispatch = useDispatch()
-    let user = useTypedSelector(state => state.user)
-    const handleClick = async (user:IUser) => {
-        await dispatch(setUser(user))
-        console.log(user)
-        await history.replace(endpoints.userProfile + user.id)
 
-    }
+    const dispatch = useDispatch()
+    let {users} = useTypedSelector(state => state.users);
+    useEffect(() => {
+        dispatch(getUsers())
+    }, [])
+
 
     return (
         <TableContainer component={Paper} className={className}>
             <Table className={classes.table} aria-label="caption table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Surname</TableCell>
+                        <TableCell>Username</TableCell>
+                        <TableCell align="right">Email</TableCell>
                         <TableCell align="right">Articles</TableCell>
-                        <TableCell align="right">Last Article</TableCell>
-
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {console.log(users)}
                     {users.map((user) => (
-                        <TableRow key={user.id} onClick={() => handleClick(user)} className={"tab-row-mat"}>
+                        <TableRow className={"tab-row-mat"}>
                             <TableCell component="th" scope="row">
-                                {user.name}
+                                {user.username}
                             </TableCell>
-                            <TableCell align="right">{user.surname}</TableCell>
-                            <TableCell align="right">{user.articles}</TableCell>
-                            <TableCell align="right">{user.lastActivity}</TableCell>
+                            <TableCell align="right">{user.email}</TableCell>
+                            <TableCell align="right">{!!user.articles}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

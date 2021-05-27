@@ -4,15 +4,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import {logout} from "../../domain/store/models/authorization";
 import {useTypedSelector} from "../../domain/store";
 import {useDispatch} from "react-redux";
 import CustomMenu from "./Menu"
-import { Menu } from '@material-ui/core';
+import {Menu} from '@material-ui/core';
 import CustomLink from "../CustomLink";
 import {AuthContext} from "../hooks/authHook";
 
@@ -36,20 +34,21 @@ export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
-    const auth = useTypedSelector(state => state.authorization.email)
+    const auth = useTypedSelector(state => state.authorization.token)
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const dispatch =  useDispatch()
+    const dispatch = useDispatch()
     const isAuth = useContext(AuthContext)
+    const {id} = useTypedSelector(state => state.authorization)
     return (
         <div className={classes.root}>
             {isAuth.isAuthorized}
             <AppBar position="static">
                 <Toolbar>
-                    <CustomMenu />
+                    <CustomMenu/>
                     <Typography variant="h6" className={classes.title}>
                         ZTI Blog
                     </Typography>
@@ -79,9 +78,10 @@ export default function Navbar() {
                                 open={open}
                                 // onClose={handleClose}
                             >
-                                <MenuItem onClick={() => dispatch(logout()) }>Logout</MenuItem>
-                                {isAuth.isAuthorized && <><MenuItem ><CustomLink to="/account">Your Account</CustomLink></MenuItem>
-                                    <MenuItem ><CustomLink to="/text/account">Menage Text</CustomLink></MenuItem> </>}
+                                <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
+                                {isAuth.isAuthorized && <><MenuItem><CustomLink to={"/user/" + id}>Your
+                                    Account</CustomLink></MenuItem>
+                                    <MenuItem><CustomLink to="/text/account">Menage Text</CustomLink></MenuItem> </>}
                             </Menu>
                         </div>
                     )}

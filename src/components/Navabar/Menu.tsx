@@ -4,10 +4,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components";
-import {
-    Link
-} from "react-router-dom";
 import CustomLink from '../CustomLink';
+
 interface IProps {
     className?: string
 }
@@ -37,7 +35,7 @@ const CustomMenu = ({className}: IProps) => {
             >
                 <MenuItem><CustomLink to="/authors">Authors</CustomLink></MenuItem>
                 <MenuItem><CustomLink to="/add">New Text</CustomLink></MenuItem>
-                <MenuItem><CustomLink to="/texts">Texts</CustomLink></MenuItem>
+                <MenuItem><CustomLink to="/articles">Texts</CustomLink></MenuItem>
             </Menu>
         </div>
     );

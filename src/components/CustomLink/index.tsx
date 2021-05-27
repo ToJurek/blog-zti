@@ -1,6 +1,4 @@
-import {
-    Link
-} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {ReactNode} from "react";
 import styled from "styled-components";
 
@@ -12,7 +10,7 @@ interface IProps {
 
 const CustomLink = ({className, to, children}: IProps) => (
     <div className={className}>
-        <Link to={to} >{children}</Link>
+        <Link to={to}>{children}</Link>
     </div>
 )
 

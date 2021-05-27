@@ -1,8 +1,6 @@
 export interface IUser {
-    id: string
-    name: string,
-    surname: string,
-    email: string,
-    lastActivity?: string,
-    articles?: string
+    username?: string
+    email?: string,
+    articles?: any
+    blogs?: number[]
 }

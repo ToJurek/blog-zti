@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IModalError} from "../../../types/modalError";
+import {REHYDRATE} from "redux-persist";
 
 
 export const initialState: IModalError = {
@@ -14,10 +15,15 @@ const modalError = createSlice({
     reducers: {
         setModalError: (
             state: IModalError,
-            action: PayloadAction<IModalError>
+            action: PayloadAction<string>
         ) => {
-            state = action.payload
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            state.isModalError = true,
+                state.message = action.payload
         }
+    },
+    extraReducers: {
+        [REHYDRATE]: state => state
     }
 })
 
@@ -26,14 +32,3 @@ export const {
 } = modalError.actions
 
 export const modalErrorReducer = modalError.reducer
-
-// @ts-ignore
-export const clearModalError = () => async dispatch => {
-    dispatch(setModalError({isModalError: false, message: ""}))
-}
-
-// @ts-ignore
-export const setLoginModalError = () => async dispatch => {
-    const message = "You have entered an invalid email or password"
-    dispatch(setModalError({isModalError: false, message}))
-}

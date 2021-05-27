@@ -1,16 +1,19 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IAuthorization} from "../../../types/authorization";
-import {endpoints} from "../../../types/endpoints";
+import {REHYDRATE} from "redux-persist";
+import {logoutUser} from "../../../api/user";
 
 const user: IAuthorization = {
     id: "",
-    name: "",
-    surname: "",
-    email: "",
-    isAdmin: false
+    username: "",
+    token: ""
 }
 
-export const initialState: IAuthorization = user
+export const initialState: IAuthorization = {
+    id: "",
+    username: "",
+    token: ""
+}
 
 
 const authorization = createSlice({
@@ -21,8 +24,14 @@ const authorization = createSlice({
             state: IAuthorization,
             action: PayloadAction<IAuthorization>
         ) => {
-            state = action.payload
+            state.username = action.payload.username
+            state.token = action.payload.token
+            state.id = action.payload.id
+            console.log(state)
         }
+    },
+    extraReducers: {
+        [REHYDRATE]: state => state
     }
 })
 
@@ -32,15 +41,11 @@ export const {
 
 export const authorizationReducer = authorization.reducer
 
-// @ts-ignore
-export const authorize = (email: string, password: string) => async dispatch => {
-    // const user = await authorizeUser(email, password);
-    // user ? dispatch(handleUser(user)) : setLoginModalError()
-    window.location.href = `${endpoints.userProfile}?id=1`
-}
 
 // @ts-ignore
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch, getState) => {
     console.log("logout")
+    const token = getState().authorization.token
     dispatch(handleUser(user))
+    await logoutUser(token)
 }

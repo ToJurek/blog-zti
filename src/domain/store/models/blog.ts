@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {REHYDRATE} from "redux-persist";
 
 export const initialState = {
     blogName: "Blog"
@@ -18,6 +19,9 @@ const blog = createSlice({
         ) => {
             state.blogName = action.payload
         }
+    },
+    extraReducers: {
+        [REHYDRATE]: state => state
     }
 })
 
