@@ -27,7 +27,8 @@ export const getText = (id: string, token: string) => async dispatch =>
         );
 
 
-export const setText = async ({title, content, author}: IText, token: string) =>
+export const setText = async ({title, content, author}: IText, token: string) => {
+    console.log(title, content, author)
     await axios.post("http://localhost:8000/api/blog/new", {
         blog_title: title,
         blog_text: content,
@@ -37,6 +38,31 @@ export const setText = async ({title, content, author}: IText, token: string) =>
             'Authorization': `token ${token}`
         }
     }).then(res => window.location.href = endpoints.text + res.data.blog_id)
+        .catch(error =>
+            console.log(error)
+        );
+}
+export const deleteText = async (id: string|undefined, token: string|undefined) =>
+    await axios.delete("http://localhost:8000/api/blog/" + id, {
+        headers: {
+            'Authorization': `token ${token}`
+        }
+    }).then(res => window.location.reload())
+        .catch(error =>
+            console.log(error)
+        );
+
+
+export const updateText = async ({title, content, id}: IText, token: string) =>
+    await axios.patch("http://localhost:8000/api/blog/" + id, {
+        blog_title: title,
+        blog_text: content,
+        blog_id: id,
+    }, {
+        headers: {
+            'Authorization': `token ${token}`
+        }
+    }).then(res => window.location.href = "/post/"+res.data.blog_id)
         .catch(error =>
             console.log(error)
         );
