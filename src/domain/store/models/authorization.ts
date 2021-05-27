@@ -27,7 +27,6 @@ const authorization = createSlice({
             state.username = action.payload.username
             state.token = action.payload.token
             state.id = action.payload.id
-            console.log(state)
         }
     },
     extraReducers: {
@@ -46,6 +45,7 @@ export const authorizationReducer = authorization.reducer
 export const logout = () => async (dispatch, getState) => {
     console.log("logout")
     const token = getState().authorization.token
-    dispatch(handleUser(user))
     await logoutUser(token)
+    dispatch(handleUser(user))
+
 }

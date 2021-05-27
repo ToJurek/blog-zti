@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,6 +15,9 @@ import {useHistory} from "react-router-dom";
 import {endpoints} from "../../types/endpoints";
 import styled from "styled-components";
 import {useTypedSelector} from '../../domain/store';
+import {deleteText} from "../../api/text/text";
+import {getArticles} from "../../api/text/articles";
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
     table: {
@@ -22,15 +25,6 @@ const useStyles = makeStyles({
     },
 });
 
-function createData(id: number, title: string, createdAt: string) {
-    return {id, title, createdAt};
-}
-
-const rows = [
-    createData(1, 'Frozen yoghurt', "159",),
-    createData(2, 'Ice cream sandwich', "237"),
-    createData(3, 'Eclair', "262"),
-];
 
 interface IProps {
     className?: string
@@ -40,8 +34,12 @@ const Element = ({className}: IProps) => {
     const classes = useStyles();
     const history = useHistory();
     const {isAuthorized} = useContext(AuthContext)
+    const dispatch = useDispatch()
+    const {username, token} = useTypedSelector(state => state.authorization)
+    useEffect(() => {
+        token && dispatch(getArticles(token))
+    }, [])
     const {articles} = useTypedSelector(state => state.articles)
-    const {username} = useTypedSelector(state => state.authorization)
     const usersArticles = articles.filter(article => article.author === username)
 
     return (
@@ -56,9 +54,9 @@ const Element = ({className}: IProps) => {
                 </TableHead>
                 <TableBody>
                     {usersArticles.map((row) => (
-                        <TableRow key={row.id} onClick={() => history.push(`${endpoints.text + row.id}`)}
+                        <TableRow key={row.id}
                                   className={"tab-row-mat"}>
-                            <TableCell component="th" scope="row">
+                            <TableCell component="th" scope="row" onClick={() => history.push(`${endpoints.text + row.id}`)}>
                                 {row.title}
                             </TableCell>
                             <TableCell align="right">{row.createdAt}</TableCell>
@@ -66,12 +64,12 @@ const Element = ({className}: IProps) => {
                                                                                    aria-label="outlined primary button group">
                                 <Button onClick={() => console.log("edit: " + row.id)} color="primary"
                                         startIcon={<EditIcon/>}/>
-                                <Button onClick={() => console.log("delete: " + row.id)} color="secondary"
+                                <Button onClick={() => deleteText(row.id, token)} color="secondary"
                                         startIcon={<DeleteIcon/>}/>
                             </ButtonGroup></TableCell>}
                         </TableRow>
                     ))}
-                    {[...Array(15 - rows.length)].map((_, i) =>
+                    {[...Array(15 - articles.length)].map((_, i) =>
                         <TableRow key={`empty-${i}`}><TableCell/><TableCell/>{isAuthorized && <TableCell/>}</TableRow>
                     )}
                 </TableBody>
@@ -87,3 +85,4 @@ const Texts = styled(Element)`
 `
 
 export default Texts
+

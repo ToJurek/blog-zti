@@ -60,7 +60,6 @@ const Add = () => {
                                 fullWidth
                                 id="title"
                                 label="Title"
-                                autoFocus
                             />
                         </Grid>
                         <Grid item xs={12}>

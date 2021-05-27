@@ -18,7 +18,7 @@ const Login = ({className}: IProps) => {
     const dispatch = useDispatch()
 
     return (<div className={className}>
-        <form className={"login-form"} onSubmit={() => dispatch(loginUser(username, password))}>
+        <form className={"login-form"} onSubmit={async () => await dispatch(loginUser(username, password))}>
             <div className={"avatar"}>
                 <Avatar className={"avatar-header"}>
                     <LockOutlinedIcon/>

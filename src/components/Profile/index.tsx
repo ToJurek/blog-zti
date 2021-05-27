@@ -6,7 +6,7 @@ import UserCart from "./UserCart";
 import ProfileModal from "./ProfileModal";
 import {useParams, withRouter} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {getUser} from "../../api/user";
+import {getUser} from "../../api/user/user";
 import {useTypedSelector} from "../../domain/store";
 
 

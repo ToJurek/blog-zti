@@ -12,9 +12,10 @@ import CommentSection from "../CommentsSection";
 import Post from "../Post"
 import SignupForm from "../Signup";
 import Add from "../Add";
-import {getUsers} from "../../api/user";
+import {getUsers} from "../../api/user/user";
 import {useDispatch} from "react-redux";
 import ModalError from "../ModalError";
+import EditArticle from "../EditArticle";
 
 const Blog = () => {
 
@@ -41,8 +42,8 @@ const Blog = () => {
                         <Route path="/articles">
                             <Articles/>
                         </Route>
-                        <Route path="/comments">
-                            <CommentSection/>
+                        <Route path="/edit/:id">
+                            <EditArticle />
                         </Route>
                         <Route exact path="/user/:id">
                             <Profile/>

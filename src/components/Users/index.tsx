@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {useTypedSelector} from "../../domain/store";
 import {useDispatch} from "react-redux";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
-import {getUsers} from "../../api/user";
+import {getUsers} from "../../api/user/user";
 
 const useStyles = makeStyles({
     table: {
