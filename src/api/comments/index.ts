@@ -36,7 +36,7 @@ export const setComment = async ({textId, content, author}: IComment, token: str
 
 
 // @ts-ignore
-const getCommentsByArticleId = (comments, id) => comments.filter(comment => comment.blog === id).map(comment => ({
+const getCommentsByArticleId = (comments, id) => comments.filter(comment => comment.blog == id).map(comment => ({
     id: comment.id,
     author: comment.author,
     content: comment.comment_text,

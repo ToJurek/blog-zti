@@ -62,7 +62,7 @@ const Element = ({className}: IProps) => {
                             <TableCell align="right">{row.createdAt}</TableCell>
                             {isAuthorized && <TableCell align="right"><ButtonGroup disableElevation variant="contained"
                                                                                    aria-label="outlined primary button group">
-                                <Button onClick={() => console.log("edit: " + row.id)} color="primary"
+                                <Button onClick={() => history.push("/edit/" + row.id)} color="primary"
                                         startIcon={<EditIcon/>}/>
                                 <Button onClick={() => deleteText(row.id, token)} color="secondary"
                                         startIcon={<DeleteIcon/>}/>
